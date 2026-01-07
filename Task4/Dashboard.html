@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+        }
+        nav {
+            background: #1e293b;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #334155;
+        }
+        .logo { color: #38bdf8; font-weight: bold; font-size: 1.2rem; }
+        .main-container {
+            padding: 3rem;
+            text-align: center;
+        }
+        h1 { font-size: 2.5rem; }
+        #user {
+            color: #38bdf8;
+            text-decoration: underline;
+        }
+        .card {
+            background: #1e293b;
+            display: inline-block;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+            border: 1px solid #334155;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">AppPortal</div>
+        <div>Settings | Logout</div>
+    </nav>
+    <div class="main-container">
+        <h1>Welcome, <span id="user"></span></h1>
+        <div class="card">
+            <p>You are logged into your secure dashboard.</p>
+        </div>
+    </div>
+</body>
+<script>
+    async function  ReceiveData() {
+        try{
+            const Name = document.getElementById('user');
+    
+            const Response = await fetch('http://localhost:3000/sendData');
+            if(!Response.ok){
+                throw new Error(`Error:${Response.status}`)
+            }
+            const Data = await Response.json();
+            console.log(Data);
+
+            Name.innerText = `${Data.Student}`
+        }catch{
+            console.log('Something went Wrong');
+        }
+    }
+    ReceiveData();
+</script>
+</html>
