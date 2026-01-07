@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Records</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 40px;
+            background-color: #121212;
+            font-family: Arial, sans-serif;
+            color: #ffffff;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #00adb5;
+        }
+
+        .table-container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.8);
+            overflow: hidden; /* Ensures rounded corners look clean */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 14px 20px; /* Improved spacing */
+            border-bottom: 1px solid #333;
+            text-align: left; /* Essential for alignment */
+        }
+
+        th {
+            background-color: #00adb5;
+            color: #000000;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        tr:last-child td {
+            border-bottom: none; /* Removes bottom line from last row */
+        }
+
+        tr:hover {
+            background-color: #2c2c2c;
+            transition: background 0.2s ease;
+        }
+    </style>
+</head>
+<body>
+    <h2>User Records</h2>
+    <div id="root"></div>
+
+    <script>
+        async function ReceiveData() {
+            const Root = document.getElementById('root');
+            try {
+                const Response = await fetch('http://localhost:3000/Senddata');
+                
+                if(!Response.ok) throw new Error(`Error: ${Response.status}`);
+                
+                const Data = await Response.json();
+
+                const TableContainer = document.createElement('div');
+                TableContainer.classList.add('table-container');
+    
+                if(Data.length === 0) {
+                    TableContainer.innerHTML = '<h4 style="text-align:center; padding:20px; color:#888;">There is no User Registered</h4>';
+                    Root.appendChild(TableContainer);
+                    return;
+                }
+
+                TableContainer.innerHTML = `
+                    <table>            
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body"></tbody>
+                    </table>
+                `;
+                Root.appendChild(TableContainer);
+
+                // --- THE CRITICAL FIX ---
+                const Tbody = document.getElementById('table-body');
+
+                Data.forEach(item => {
+                    const Row = document.createElement('tr');
+                    Row.innerHTML = `
+                        <td>${item.name}</td>
+                        <td>${item.Email}</td>
+                        <td>${item.Phone}</td>
+                    `;
+                    // Fix: Append to Tbody, NOT Root
+                    Tbody.appendChild(Row); 
+                });
+
+            } catch(err) {
+                console.log('Error:', err);
+                Root.innerHTML = '<p style="text-align:center; color:#ff4d4d;">Failed to load Data. .</p>';
+            }
+        }
+        ReceiveData();
+    </script>
+</body>
+</html>
