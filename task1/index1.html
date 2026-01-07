@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page 1</title>
+    <style>
+        .product-input-card {
+  display: flex;
+  gap: 30px;
+  max-width: 300px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  font-family: 'Segoe UI', sans-serif;
+  background: #fff;
+}
+
+.product-preview img {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.product-title {
+  margin: 0 0 10px 0;
+  font-size: 1.5rem;
+}
+
+.product-price {
+  font-size: 1.25rem;
+  color: #2ecc71;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Quantity Selector Styling */
+.quantity-control {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin: 10px 0 25px 0;
+}
+
+.quantity-control input {
+  width: 50px;
+  height: 40px;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-left: none;
+  border-right: none;
+  font-size: 1rem;
+}
+
+/* Hide arrows in Chrome/Safari */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.qty-btn {
+  width: 40px;
+  height: 40px;
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background 0.2s;
+}
+
+.qty-btn:hover {
+  background: #e9ecef;
+}
+
+.qty-btn.minus { border-radius: 4px 0 0 4px; }
+.qty-btn.plus { border-radius: 0 4px 4px 0; }
+
+.add-to-cart-big {
+  width: 100%;
+  padding: 12px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.add-to-cart-big:hover {
+  background: #2980b9;
+}
+    </style>
+</head>
+<body>
+    <div class="product-input-card">
+  <div class="product-details">
+    <h2 class="product-title">Premium Headphones</h2>
+    <p class="product-price">$199.00</p>
+    
+    <label for="quantity">Quantity:</label>
+    <div class="quantity-control">
+      <input type="number" id="quantity" value="1" min="1">
+    </div>
+
+    <button class="add-to-cart-big">Add to Cart</button>
+  </div>
+</div>
+</body>
+<script>
+  async function SendaData(items) {
+    try {
+        const Response = await fetch('http://localhost:3000/send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(items)
+        });
+
+        if (!Response.ok) { console.log(`Error ${Response.status}`); }
+
+        const Data = await Response.json();
+        
+        window.location.href = `index2.html`;
+    } catch (err) {
+        console.log('Something went wrong on Page 1', err);
+    }
+}        const BTN = document.querySelector('.add-to-cart-big');
+    
+            BTN.addEventListener('click' , ()=>{
+                const Tittle = document.querySelector('.product-title').innerText;
+                const Price = document.querySelector('.product-price').innerText;
+                const quantity = document.getElementById('quantity').value;
+                const Product = {
+                    Tittle,
+                    Price,
+                    quantity,
+                };
+                SendaData(Product);
+            })
+    
+</script>
+</html>

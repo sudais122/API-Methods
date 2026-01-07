@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Student Portal</title>
+    <style>
+        /* Dark Theme Variables */
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --accent: #38bdf8;
+            --input-bg: #0f172a;
+            --border: #334155;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .form-card {
+            background: var(--card-bg);
+            padding: 32px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            width: 380px;
+            border: 1px solid var(--border);
+        }
+
+        h2 {
+            margin: 0 0 24px 0;
+            text-align: center;
+            font-size: 1.5rem;
+            color: var(--accent);
+            letter-spacing: -0.025em;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--input-bg);
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-main);
+            box-sizing: border-box;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+        }
+
+        input::placeholder {
+            color: #475569;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--accent);
+            color: #0f172a;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: #60cdff;
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-card">
+        <h2>Student Registration</h2>
+        
+        <div class="input-group">
+            <label for="studentName">Student Name</label>
+            <input type="text" id="studentName" placeholder="John Doe">
+        </div>
+
+        <div class="input-group">
+            <label for="department">Department</label>
+            <input type="text" id="department" placeholder="Software Engineering">
+        </div>
+
+        <div class="input-group">
+            <label for="rollNo">Registration Number</label>
+            <input type="text" id="rollNo" placeholder="F23-1092">
+        </div>
+
+        <button class="submit-btn" id="regBtn">Register Now</button>
+    </div>
+
+    <script>
+        const Name = document.getElementById('studentName');
+        const Department = document.getElementById('department');
+        const RegNo = document.getElementById('rollNo');
+        const Submit = document.getElementById('regBtn');
+
+        
+        async function sendData(Details) {
+            try{
+                const Response = await fetch('http://localhost:3000/sendData',{
+                    method: 'POST',
+                    headers:{
+                        'Content-Type' : 'application/json'
+                    },
+                    body: JSON.stringify(Details)
+                });
+                if(!Response.ok) throw new console.error(`Error:${Response.status}`);
+                
+                const Data = await Response.json();
+                console.log(Data);
+                window.location.href = 'record.html';
+            }catch{
+                console.log('Something Went wrong');
+            }
+        }
+
+        Submit.addEventListener('click', ()=>{
+            let NameVal = Name.value.trim();
+            let DepartmentVal = Department.value.trim();
+            let RegNoVal = RegNo.value.trim();
+
+            if(NameVal === '' ||DepartmentVal == '' || RegNoVal === ''){
+                alert('please input all fields')
+            }else{
+                const Details = { 
+                    NameVal : NameVal,
+                    DepartmentVal: DepartmentVal,
+                    RegNoVal: RegNoVal,
+                };
+                sendData(Details);
+                Name.value = '',
+                Department.value = '', 
+                RegNo.value = ''
+            }
+        });
+
+    </script>
+</body>
+</html>

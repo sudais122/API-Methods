@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Details</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; padding-top: 50px; background: #e9ecef; }
+        .receipt {
+            background: #fff;
+            width: 350px;
+            padding: 20px;
+            border: 1px dashed #aaa;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        .line-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        .label { color: #777; text-transform: uppercase; font-size: 0.8rem; }
+        .value { font-weight: bold; color: #333; }
+        .total-box {
+            margin-top: 20px;
+            background: #f8f9fa;
+            padding: 10px;
+            font-size: 1.2rem;
+        }
+        .back-btn { display: inline-block; margin-top: 20px; text-decoration: none; color: #007bff; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+</body>
+<script>
+async function ReceiveData() {
+    try {
+        // This now gets the 'savedItem' from the server
+        const Response = await fetch('http://localhost:3000/send');
+        const Data = await Response.json();
+
+        console.log(Data);
+        
+        // if (!Data.Tittle) {
+        //     document.body.innerHTML = "<h2>No product data found.</h2>";
+        // }else{
+            const Item = Data.saveditem;
+            const Cart = document.createElement('div');
+            Cart.classList.add('receipt');
+            Cart.innerHTML = `
+                <h3>Order Summary</h3>
+                <hr>
+                <div class="line-item">
+                    <span class="label">Item</span>
+                    <span class="value">${Item.Tittle}</span>
+                </div>
+                <div class="line-item">
+                    <span class="label">Price</span>
+                    <span class="value">${Item.Price}</span>
+                </div>
+                <div class="line-item">
+                    <span class="label">Quantity</span>
+                    <span class="value">${Item.quantity}</span>
+                </div>
+                <div class="total-box"><strong>Confirmed</strong></div>
+                <a href="index.html" class="back-btn">← New Entry</a>
+            `;
+            document.body.appendChild(Cart);
+    } catch (err) {
+        console.log('Error:', err);
+    }
+}
+ReceiveData();
+</script>
+</html>
