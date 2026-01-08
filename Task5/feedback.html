@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Feedback</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 40px; }
+        .container { max-width: 600px; margin: auto; }
+        h2 { color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px; }
+        
+        /* Styling the feedback "posts" */
+        .feedback-item {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-left: 5px solid #007bff;
+        }
+        .user-name { font-weight: bold; color: #007bff; display: block; margin-bottom: 5px; }
+        .message { color: #555; line-height: 1.5; }
+        
+        .back-btn { width: 100%; display: flex; padding-left: 11.5rem; display: inline-block; margin-top: 20px; text-decoration: none; color: #007bff; font-weight: bold; }
+        .error{font-family: sans-serif; font-weight: bolder; color: red;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Submitted Feedback</h2>
+        <div class="Container"></div>
+        <h3 class="error"></h3>
+    </div>
+    <div class="back-btn"></div>
+</body>
+<script>
+    async function DataReceive() {
+        try{
+            const Response = await fetch('http://localhost:3000/sendData');
+            if(!Response.ok) throw new Error(`Error: ${Response.status}`)
+            const Data = await Response.json();
+            console.log(Data);
+
+            const Container = document.querySelector('.Container');
+            if(Data.length === 0){
+                Container.innerHTML = `<h2>Submitted Feedback</h2><h4 style="font-size: 2rem; color: black; font-family: sans-serif; font-weight: bolder;">There is no Feedback yet</h4>`;
+            }
+            if(!(Data.length === 0)){
+                const BackBtn = document.querySelector('.back-btn');
+                const Anchar = document.createElement('a');
+                Anchar.innerHTML = '<a href="index.html" class="back-btn">← Back to Form</a>';
+                BackBtn.appendChild(Anchar);
+            }
+            Data.forEach(item => {
+                const FeedBack = document.createElement('div');
+                FeedBack.classList.add('feedback-item');
+
+                FeedBack.innerHTML = `
+                        <span class="user-name">${item.name}</span>
+                        <p class="message">${item.Feedback}</p>
+                ` ;
+                Container.appendChild(FeedBack);
+            });
+            
+        }catch(err){
+            console.log('Something went wrong at Feedbackpage',err);
+            document.querySelector('.error').innerText = 'check if server is Running';
+        }
+    }
+    DataReceive();
+</script>
+</html>
