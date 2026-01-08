@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Feedback</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 40px; }
+        body { overflow-x: hidden; font-family: Arial, sans-serif; background: #f0f2f5; padding: 40px; }
         .container { max-width: 600px; margin: auto; }
-        h2 { color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px; }
+        .h2 { color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px; }
         
         /* Styling the feedback "posts" */
         .feedback-item {
@@ -21,13 +21,14 @@
         .user-name { font-weight: bold; color: #007bff; display: block; margin-bottom: 5px; }
         .message { color: #555; line-height: 1.5; }
         
-        .back-btn { width: 100%; display: flex; padding-left: 11.5rem; display: inline-block; margin-top: 20px; text-decoration: none; color: #007bff; font-weight: bold; }
+        .back-btn { width: 100%; overflow-x: hidden; display: flex; padding-left: 11.5rem; display: inline-block; text-decoration: none; color: #007bff; font-weight: bold; }
         .error{font-family: sans-serif; font-weight: bolder; color: red;}
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Submitted Feedback</h2>
+        <h2 class="h2">Submitted Feedback</h2>
+        <div class="Container"></div>
         <div class="Container"></div>
         <h3 class="error"></h3>
     </div>
@@ -35,6 +36,7 @@
 </body>
 <script>
     async function DataReceive() {
+        let count = 0;
         try{
             const Response = await fetch('http://localhost:3000/sendData');
             if(!Response.ok) throw new Error(`Error: ${Response.status}`)
@@ -43,7 +45,7 @@
 
             const Container = document.querySelector('.Container');
             if(Data.length === 0){
-                Container.innerHTML = `<h2>Submitted Feedback</h2><h4 style="font-size: 2rem; color: black; font-family: sans-serif; font-weight: bolder;">There is no Feedback yet</h4>`;
+                Container.innerHTML = `<h4 style="font-size: 1.5rem; color: #333; font-family: sans-serif; font-weight: bolder;">There is no Feedback yet</h4>`;
             }
             if(!(Data.length === 0)){
                 const BackBtn = document.querySelector('.back-btn');
@@ -51,6 +53,7 @@
                 Anchar.innerHTML = '<a href="index.html" class="back-btn">← Back to Form</a>';
                 BackBtn.appendChild(Anchar);
             }
+
             Data.forEach(item => {
                 const FeedBack = document.createElement('div');
                 FeedBack.classList.add('feedback-item');
@@ -59,9 +62,16 @@
                         <span class="user-name">${item.name}</span>
                         <p class="message">${item.Feedback}</p>
                 ` ;
+                count++;
                 Container.appendChild(FeedBack);
             });
-            
+
+            if(!(Data.length === 0)){
+                const Count = document.createElement('h2');
+                Count.innerHTML = `<h4>Submitted Feedback (<span id="count">${count}</span>)</h4>`;
+                Container.appendChild(Count);
+            }
+            console.log(count);
         }catch(err){
             console.log('Something went wrong at Feedbackpage',err);
             document.querySelector('.error').innerText = 'check if server is Running';
