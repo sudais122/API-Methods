@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Aura - Shop & Quantity</title>
+    <style>
+        /* Color Theory: Deep Midnight Palette */
+        :root {
+            --bg-deep: #0f172a;      /* Background */
+            --bg-card: #1e293b;      /* Card Surface */
+            --text-main: #f1f5f9;    /* Titles */
+            --text-dim: #94a3b8;     /* Labels/Captions */
+            --primary: #38bdf8;      /* Action Color (Sky Blue) */
+            --accent: #4ade80;       /* Price/Success (Neon Green) */
+        }
+
+        body { 
+            font-family: 'Segoe UI', Roboto, sans-serif; 
+            background-color: var(--bg-deep); 
+            color: var(--text-main); 
+            margin: 0; 
+            padding: 20px; 
+        }
+
+        header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            max-width: 1200px; 
+            margin: 0 auto 40px; 
+            padding: 10px;
+        }
+
+        .logo { font-size: 1.8rem; font-weight: 800; color: var(--primary); letter-spacing: -1px; }
+
+        .cart-link { 
+            background: var(--primary); 
+            color: var(--bg-deep); 
+            padding: 10px 25px; 
+            text-decoration: none; 
+            border-radius: 30px; 
+            font-weight: bold; 
+            transition: transform 0.2s;
+        }
+        .cart-link:hover { transform: scale(1.05); }
+
+        /* 4x4 Grid System */
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover { 
+            transform: translateY(-8px); 
+            border-color: var(--primary); 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .product-img { 
+            width: 100%; 
+            height: 180px; 
+            object-fit: cover; 
+            background: #334155;
+            display: block;
+        }
+
+        .product-info { padding: 20px; }
+        .product-title { font-size: 1.1rem; margin: 0; font-weight: 600; color: var(--text-main); }
+        .price { color: var(--accent); font-size: 1.3rem; font-weight: bold; margin: 10px 0; }
+        
+        /* Quantity Input Styling */
+        .item-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            background: rgba(15, 23, 42, 0.5);
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+
+        .qty-label { font-size: 0.85rem; color: var(--text-dim); }
+
+        .qty-input {
+            background: transparent;
+            border: 1px solid var(--text-dim);
+            color: var(--primary);
+            border-radius: 4px;
+            padding: 4px;
+            width: 50px;
+            outline: none;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .add-btn { 
+            width: 100%; 
+            padding: 12px; 
+            border: 2px solid var(--primary); 
+            background: transparent; 
+            color: var(--primary); 
+            font-weight: bold; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: 0.3s;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        .add-btn:hover { background: var(--primary); color: var(--bg-deep); }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 1100px) { .shop-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 800px) { .shop-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 500px) { .shop-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">DARK AURA</div>
+        <a href="cart.html" class="cart-link">View Cart (0)</a>
+    </header>
+
+    <main class="shop-grid">
+        <div class="product-card">
+            <img src="https://picsum.photos/seed/a1/400/300" alt="Product" class="product-img">
+            <div class="product-info">
+                <p class="product-title">Cyber Audio Gen-1</p>
+                <div class="price">199.00</div>
+                <div class="item-controls">
+                    <span class="qty-label">Quantity:</span>
+                    <input type="number" class="qty-input" value="1" min="1" max="99">
+                </div>
+                <button class="add-btn">Add to Cart</button>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://picsum.photos/seed/a2/400/300" alt="Product" class="product-img">
+            <div class="product-info">
+                <p class="product-title">Neon Wrist Wear</p>
+                <div class="price">85.00</div>
+                <div class="item-controls">
+                    <span class="qty-label">Quantity:</span>
+                    <input type="number" class="qty-input" value="1" min="1" max="99">
+                </div>
+                <button class="add-btn">Add to Cart</button>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://picsum.photos/seed/a3/400/300" alt="Product" class="product-img">
+            <div class="product-info">
+                <p class="product-title">Void Backpack</p>
+                <div class="price">45.00</div>
+                <div class="item-controls">
+                    <span class="qty-label">Quantity:</span>
+                    <input type="number" class="qty-input" value="1" min="1" max="99">
+                </div>
+                <button class="add-btn">Add to Cart</button>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://picsum.photos/seed/a4/400/300" alt="Product" class="product-img">
+            <div class="product-info">
+                <p class="product-title">Stealth Mouse</p>
+                <div class="price">120.00</div>
+                <div class="item-controls">
+                    <span class="qty-label">Quantity:</span>
+                    <input type="number" class="qty-input" value="1" min="1" max="99">
+                </div>
+                <button class="add-btn">Add to Cart</button>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://picsum.photos/seed/a5/400/300" alt="Product" class="product-img">
+            <div class="product-info">
+                <p class="product-title">Dark Lens Pro</p>
+                <div class="price">150.00</div>
+                <div class="item-controls">
+                    <span class="qty-label">Quantity:</span>
+                    <input type="number" class="qty-input" value="1" min="1" max="99">
+                </div>
+                <button class="add-btn">Add to Cart</button>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://picsum.photos/seed/a6/400/300" alt="Product" class="product-img">
+            <div class="product-info">
+                <p class="product-title">Chrome Flask</p>
+                <div class="price">30.00</div>
+                <div class="item-controls">
+                    <span class="qty-label">Quantity:</span>
+                    <input type="number" class="qty-input" value="1" min="1" max="99">
+                </div>
+                <button class="add-btn">Add to Cart</button>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://picsum.photos/seed/a7/400/300" alt="Product" class="product-img">
+            <div class="product-info">
+                <p class="product-title">Glow Keyboard</p>
+                <div class="price">210.00</div>
+                <div class="item-controls">
+                    <span class="qty-label">Quantity:</span>
+                    <input type="number" class="qty-input" value="1" min="1" max="99">
+                </div>
+                <button class="add-btn">Add to Cart</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="https://picsum.photos/seed/a8/400/300" alt="Product" class="product-img">
+            <div class="product-info">
+                <p class="product-title">Matte Controller</p>
+                <div class="price">65.00</div>
+                <div class="item-controls">
+                    <span class="qty-label">Quantity:</span>
+                    <input type="number" class="qty-input" value="1" min="1" max="99">
+                </div>
+                <button class="add-btn">Add to Cart</button>
+            </div>
+        </div>
+    </main>
+</body>
+<script>
+    let count = 0;
+    let url = 'http://localhost:3000/SendData';
+    async function SendData(Deatails) {
+        try{
+            const Response = await fetch(url,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(Deatails)
+            });
+            if(!Response.ok) throw new Error(`Error: ${Response.status}`)
+            const Data = await Response.json();
+            console.log(Data);
+        }catch(err){
+            console.log(`Something Went Wrong`,err);
+        }
+    }
+
+    const Button = document.querySelectorAll('.add-btn');
+    const Image = document.querySelectorAll('.product-img');
+    const Tittle = document.querySelectorAll('.product-title');
+    const Price = document.querySelectorAll('.price');
+    const qtyinput = document.querySelectorAll('.qty-input');
+
+    Button.forEach(item => {
+        item.addEventListener('click',(e)=>{
+    
+            const product = item.closest('.product-card');
+            const imgSrc = product.querySelector('.product-img').src;
+            const title = product.querySelector('.product-title').innerText;
+            const price = product.querySelector('.price').innerText;
+            const quantity = product.querySelector('.qty-input').value;
+            
+            count++;
+            document.querySelector('.cart-link').innerText = `View Cart (${count})`;
+            let Details = {
+                imgSrc,
+                title,
+                price,
+                quantity,
+            }
+            SendData(Details);
+        });
+    });
+</script>
+</html>
